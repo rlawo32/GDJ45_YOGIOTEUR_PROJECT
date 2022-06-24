@@ -1,1 +1,5 @@
+<<<<<<< HEAD
 # GDJ45_TEAM_PROJECT
+=======
+# GDJ45_YOGIOTEUR_PROJECT
+>>>>>>> 6988ab6694b3fcec880af9fc05d31d27ff9eebda
