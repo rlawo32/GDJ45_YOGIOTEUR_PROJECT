@@ -1,0 +1,16 @@
+<<<<<<< HEAD
+git test
+asd
+<<<<<<< HEAD
+awefaw
+=======
+아하하99999
+=======
+home test
+success!
+one more
+<<<<<<< HEAD
+>>>>>>> 010c9273248c98ff3072eb90e5994d58066240ad
+=======
+>>>>>>> db4877f19f2f7dd3c0f3035a5735a68af3cfb035
+>>>>>>> jieun

@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper 
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.tp.yogioteur.mapper.FaqMapper">
+
+	<!-- 목록 -->
+	<select id="selectFaqList" parameterType="Map" resultType="FaqDTO">
+		SELECT A.RN, A.FAQ_NO, A.FAQ_TITLE, A.FAQ_CONTENT, A.FAQ_CREATED
+		  FROM (SELECT ROW_NUMBER() OVER(ORDER BY FAQ_CREATED DESC) AS RN, FAQ_NO, FAQ_TITLE, FAQ_CONTENT,FAQ_CREATED
+		  		  FROM FAQ) A
+		 WHERE A.RN BETWEEN #{beginRecord} AND #{endRecord}	
+	</select>
+	
+	<!-- 전체 레코드 갯수 -->
+	<select id="selectFaqCount" resultType="Integer" >
+		SELECT COUNT(FAQ_NO)
+		  FROM FAQ
+	</select>
+	
+	<!-- 삽입 -->
+	
+	<insert id="insertFaq" parameterType="FaqDTO">
+		INSERT INTO FAQ
+			(FAQ_NO, FAQ_TITLE, FAQ_CONTENT, FAQ_CREATED)
+		VALUES
+			(FAQ_SEQ.NEXTVAL, #{faqTitle}, #{faqContent}, SYSDATE)
+	</insert>
+	
+	
+	<!-- 삭제 -->
+	<delete id="deleteFaq" parameterType="Long">
+		DELETE
+		  FROM FAQ
+		 WHERE FAQ_NO = #{faqNo}
+	</delete>
+	
+	<!-- 검색된 레코드 갯수 -->
+	<select id="selectFindCount" parameterType="Map" resultType="Integer">
+		SELECT COUNT(*)
+		  FROM FAQ
+		 WHERE FAQ_TITLE LIKE '%' || #{faqQuery} || '%'
+	</select>
+	
+	
+	<!-- 검색 -->
+	<select id="selectfaqSearch" parameterType="Map" resultType="FaqDTO">
+		SELECT A.RN, A.FAQ_NO, A.FAQ_TITLE, A.FAQ_CONTENT, A.FAQ_CREATED
+		  FROM (SELECT ROW_NUMBER() OVER(ORDER BY FAQ_CREATED DESC) AS RN, FAQ_NO, FAQ_TITLE, FAQ_CONTENT,FAQ_CREATED
+		  		  FROM FAQ
+		  		 WHERE FAQ_TITLE LIKE '%' || #{faqQuery} || '%') A
+		 WHERE A.RN BETWEEN #{beginRecord} AND #{endRecord}	
+	</select>
+	
+</mapper>

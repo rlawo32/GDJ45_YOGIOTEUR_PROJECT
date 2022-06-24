@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper 
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.tp.yogioteur.mapper.RoomMapper">
+
+	<insert id="insertRoom" parameterType="RoomDTO">
+		<selectKey keyProperty="roomNo" resultType="Long" order="BEFORE">
+			SELECT ROOM_SEQ.NEXTVAL
+			  FROM DUAL
+		</selectKey>
+		INSERT INTO ROOM
+			(ROOM_NO, RT_NO, ROOM_NAME, ROOM_STATUS, ROOM_CHECKIN, ROOM_CHECKOUT, ROOM_PRICE)
+		VALUES
+			(#{roomNo}, #{rtNo}, #{roomName}, #{roomStatus}, SYSDATE, #{roomCheckOut}, #{roomPrice})
+	</insert>
+	
+	<insert id="insertImage" parameterType="ImageDTO">
+		INSERT INTO IMAGE
+			(IMAGE_NO, ROOM_NO, IMAGE_PATH, IMAGE_SAVED, IMAGE_ORIGIN)
+		VALUES
+			(IMAGE_SEQ.NEXTVAL, #{roomNo}, #{imagePath}, #{imageSaved}, #{imageOrigin})
+	</insert>
+	
+	<resultMap type="RoomTypeDTO" id="RoomTypeDTO">
+		<result column="RT_NO" property="rtNo"/>
+		<result column="RT_TYPE" property="rtType"/>
+		<result column="RT_MAX" property="rtMax"/>
+	</resultMap>
+	
+	<resultMap type="RoomDTO" id="RoomDTO">
+		<result column="ROOM_NO" property="roomNo"/>
+		<result column="RT_NO" property="rtNo"/>
+		<result column="ROOM_NAME" property="roomName"/>
+		<result column="ROOM_PRICE" property="roomPrice"/>
+		<result column="ROOM_STATUS" property="roomStatus"/>
+		<result column="ROOM_CHECKIN" property="roomCheckIn"/>
+		<result column="ROOM_CHECKOUT" property="roomCheckOut"/>
+		<collection property="roomTypeDTO" resultMap="RoomTypeDTO"/>
+	</resultMap>
+	
+	<select id="selectRoomList" resultMap="RoomDTO">
+		SELECT R.ROOM_NO, R.RT_NO, R.ROOM_NAME, R.ROOM_STATUS, R.ROOM_CHECKIN, R.ROOM_CHECKOUT, R.ROOM_PRICE, T.RT_TYPE, T.RT_MAX
+		  FROM ROOM R INNER JOIN ROOM_TYPE T
+		    ON R.RT_NO = T.RT_NO
+		 ORDER BY R.ROOM_NO DESC
+	</select>
+	
+	<select id="checkInRoomList" resultType="RoomDTO">
+		SELECT ROOM_NO, RT_NO, ROOM_NAME, ROOM_STATUS, ROOM_CHECK_IN, ROOM_CHECK_OUT, ROOM_PRICE
+		  FROM ROOM
+		 WHERE ROOM_CHECK_IN = #{roomCheckIn}
+		   AND ROOM_STATUS = 0
+	
+	</select>
+	
+</mapper>

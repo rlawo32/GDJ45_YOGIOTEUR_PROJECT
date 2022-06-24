@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper 
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.tp.yogioteur.mapper.ReviewMapper">
+
+	<!-- 리뷰 갯수 -->
+	<select id="selectReviewCount" resultType="Integer">
+		SELECT COUNT(REVIEW_NO)
+		  FROM REVIEW
+	</select>
+	
+	<!-- 리뷰 목록보기 -->
+	<select id="selectReviewList" parameterType="Map" resultType="ReviewDTO">
+		SELECT C.REVIEW_NO, C.MEMBER_NO, C.RESER_NO, C.REVIEW_TITLE, C.REVIEW_CONTENT, C.REVIEW_CREATED, C.REVIEW_REV_NO
+		  FROM (SELECT ROW_NUMBER() OVER(ORDER BY REVIEW_NO DESC) AS RNC, REVIEW_NO, MEMBER_NO, RESER_NO, REVIEW_TITLE, REVIEW_CONTENT, REVIEW_CREATED, REVIEW_REV_NO
+		  		  FROM REVIEW) C
+		 WHERE C.RNC BETWEEN #{beginRecord} AND #{endRecord}  		  
+	</select>
+	
+	<!-- 리뷰 사진 목록에서 보기 -->
+	<select id="selectReImage" parameterType="Long" resultType="ReImageDTO">
+		SELECT RE_IMAGE_NO, REVIEW_NO, RE_IMAGE_PATH, RE_IMAGE_SAVED, RE_IMAGE_ORIGIN
+		  FROM RE_IMAGE
+		 WHERE REVIEW_NO = #{reviewNo}
+	</select>
+
+	<!-- 리뷰 하나 정보 -->
+	<select id="selectReviewByNo" parameterType="Long" resultType="ReviewDTO">
+		SELECT REVIEW_NO, MEMBER_NO, RESER_NO, REVIEW_TITLE, REVIEW_CONTENT, REVIEW_CREATED, REVIEW_REV_NO
+		  FROM REVIEW
+		 WHERE REVIEW_NO = #{reviewNo}
+	</select>
+	
+
+	<!-- 리뷰 추가 -->
+	<insert id="insertReview" parameterType="ReviewDTO">
+		<selectKey keyProperty="reviewNo" resultType="Long" order="BEFORE">
+			SELECT REVIEW_NO_SEQ.NEXTVAL
+			  FROM DUAL
+		</selectKey>
+		INSERT INTO REVIEW
+			(REVIEW_NO, MEMBER_NO, RESER_NO, REVIEW_TITLE, REVIEW_CONTENT, REVIEW_CREATED, REVIEW_REV_NO)
+		VALUES
+			(#{reviewNo}, MEMBER_NO_SEQ.NEXTVAL, RESER_NO_SEQ.NEXTVAL, #{reviewTitle}, #{reviewContent}, SYSDATE, #{reviewRevNo})
+	</insert>
+	
+	<!-- 리뷰 이미지 저장 -->
+	<insert id="insertReImage" parameterType="ReImageDTO">
+		INSERT INTO RE_IMAGE
+			(RE_IMAGE_NO, REVIEW_NO, RE_IMAGE_PATH, RE_IMAGE_SAVED, RE_IMAGE_ORIGIN)
+		VALUES
+			(RE_IMAGE_NO_SEQ.NEXTVAL, #{reviewNo}, #{reImagePath}, #{reImageSaved}, #{reImageOrigin})
+	</insert>
+	
+	<!-- 리뷰 삭제 -->
+	<delete id="deleteReview" parameterType="Long">
+		DELETE
+		  FROM REVIEW
+		 WHRER REVIEW_NO = #{reviewNo}
+	</delete>
+	
+</mapper>

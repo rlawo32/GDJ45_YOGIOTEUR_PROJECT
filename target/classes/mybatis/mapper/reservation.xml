@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper 
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.tp.yogioteur.mapper.reservationMapper">
+
+	<insert id="reservationInsert" parameterType="ReservationDTO">
+		INSERT INTO RESERVATION
+			(RESER_NO, MEMBER_NO, ROOM_NO, NON_NO, RESER_CHECKIN, RESER_CHECKOUT, RESER_PEOPLE, RESER_FOOD)
+		VALUES
+			(#{reserNo}, #{memberNo}, #{roomNo}, #{nonNo}, SYSDATE, SYSDATE, #{reserPeople}, #{reserFood})
+	</insert>
+	
+	<select id="reservationSelect" resultType="ReservationDTO">
+		SELECT RESER_NO, MEMBER_NO, ROOM_NO, NON_NO, RESER_CHECKIN, RESER_CHECKOUT, RESER_PEOPLE, RESER_FOOD
+		  FROM RESERVATION
+	</select>
+	
+	<select id="reservationSelectConfirm" parameterType="String" resultType="ReservationDTO">
+		SELECT RESER_NO, MEMBER_NO, ROOM_NO, NON_NO, RESER_CHECKIN, RESER_CHECKOUT, RESER_PEOPLE, RESER_FOOD
+		  FROM RESERVATION
+		 WHERE RESER_NO = #{reserNo}
+	</select>
+	
+</mapper>
