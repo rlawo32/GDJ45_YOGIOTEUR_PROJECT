@@ -32,19 +32,9 @@ public class MainController {
 		return "admin/index";
 	}
 	
-	
-	@GetMapping("/signUp/signUpPage") public String signInPage() { 
-		return "member/signIn"; 
-	}
-	 
-	 
-	@GetMapping("/login/loginPage") public String loginPage() {
-		return "member/login";
-	}
-	
 	@GetMapping("/faq/faqPage")
 	public String faqPage() {
-		return "faq/faqList";
+		return "faq/faqSearch";
 	}
 	
 	@GetMapping("/review/reviewPage")

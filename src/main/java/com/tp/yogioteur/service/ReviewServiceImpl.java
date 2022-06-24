@@ -24,7 +24,6 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import com.tp.yogioteur.domain.ReImageDTO;
 import com.tp.yogioteur.domain.ReviewDTO;
 import com.tp.yogioteur.mapper.ReviewMapper;
-import com.tp.yogioteur.mapper.RoomMapper;
 import com.tp.yogioteur.util.MyFileUtils;
 import com.tp.yogioteur.util.PageUtils;
 
@@ -47,7 +46,7 @@ public class ReviewServiceImpl implements ReviewService {
 		  PageUtils pageUtils = new PageUtils();
 		  pageUtils.setPageEntity(totalRecord, page);
 		  
-		  Map<String, Object> map  = new HashMap<>();
+		  Map<String, Object> map  = new HashMap<String, Object>();
 		  map.put("beginRecord", pageUtils.getBeginRecord());
 		  map.put("endRecord", pageUtils.getEndRecord());
 		  
@@ -201,9 +200,96 @@ public class ReviewServiceImpl implements ReviewService {
 	  // 리뷰 삭제
 	  @Override
 	  public void removeReview(HttpServletRequest request, HttpServletResponse response) {
-		// TODO Auto-generated method stub
+		  
+		  Optional<String> opt = Optional.ofNullable(request.getParameter("reviewNo"));
+		  Long reviewNo = Long.parseLong(opt.orElse("0"));
 		
+		  
+		  
+		  ReImageDTO reImage = reviewMapper.selectReImage(reviewNo);
+		  
+
+		  if(reImage != null) {
+			  
+			  File file = new File(reImage.getReImagePath(), reImage.getReImageSaved());
+			  
+			  try {
+				  
+				  String contentType = Files.probeContentType(file.toPath());
+				  if(contentType.startsWith("image")) {
+					  
+					  if(file.exists()) {
+						  file.delete();
+					  }
+					  
+				  }
+				   
+			  }catch (Exception e) {
+				  e.printStackTrace();
+			  }
+			  
+			  
+			  
+			  int resImg = reviewMapper.deleteReImage(reviewNo);
+				 
+			  int resRev = reviewMapper.deleteReview(reviewNo);
+			  
+			  try {
+				  
+				  response.setContentType("text/html");
+				  PrintWriter out = response.getWriter();
+				  if(resImg==1 && resRev ==1 ) {
+					  out.println("<script>");
+					  out.println("alert('리뷰가 삭제되었습니다')");
+					  out.println("location.href='" + request.getContextPath() + "/review/reviewList'");
+					  out.println("</script>");
+					  out.close();
+				  } else {
+					  out.println("<script>");
+					  out.println("alert('리뷰가 삭제되지 않았습니다')");
+					  out.println("history.back()");
+					  out.println("</script>");
+					  out.close();
+				  }
+				  
+				  
+			  }catch (Exception e) {
+				  e.printStackTrace();
+			  }
+			  
+			  
+			  
+		  } else {
+			  
+			  int resRev = reviewMapper.deleteReview(reviewNo);
+			  
+			  try {
+				  
+				  response.setContentType("text/html");
+				  PrintWriter out = response.getWriter();
+				  if(resRev == 1 ) {
+					  out.println("<script>");
+					  out.println("alert('리뷰가 삭제되었습니다')");
+					  out.println("location.href='" + request.getContextPath() + "/review/reviewList'");
+					  out.println("</script>");
+					  out.close();
+				  } else {
+					  out.println("<script>");
+					  out.println("alert('리뷰가 삭제되지 않았습니다')");
+					  out.println("history.back()");
+					  out.println("</script>");
+					  out.close();
+				  }
+				  
+				  
+			  }catch (Exception e) {
+				  e.printStackTrace();
+			  }
+			  
+		  }
+		    
+		  
 	  }
-		
+	  
 
 }

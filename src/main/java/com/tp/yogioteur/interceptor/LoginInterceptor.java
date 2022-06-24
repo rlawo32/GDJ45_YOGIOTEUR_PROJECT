@@ -16,8 +16,8 @@ import com.tp.yogioteur.util.SecurityUtils;
 
 public class LoginInterceptor implements HandlerInterceptor {
 	
-	@Autowired
-	private MemberService memberService;
+	//@Autowired
+	//private MemberService memberService;
 	
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)

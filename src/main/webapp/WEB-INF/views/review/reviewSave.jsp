@@ -51,7 +51,7 @@
     border: 0; /* 필드셋 테두리 제거 */
 	}
 	#reviewAdd input[type=radio]{
-	    /*display: none;*/ /* 라디오박스 감춤 */
+	    display: none; /* 라디오박스 감춤 */
 	}
 	#reviewAdd label{
     font-size: 3em; /* 이모지 크기 */
@@ -84,14 +84,14 @@
    		
   		별점 :
    		<fieldset>
-	        <input type="radio" name="reviewRevNo" value="1" id="rate1"><label for="rate1">★</label>
-	        <input type="radio" name="reviewRevNo" value="2" id="rate2"><label for="rate2">★</label>
+	        <input type="radio" name="reviewRevNo" value="5" id="rate1"><label for="rate1">★</label>
+	        <input type="radio" name="reviewRevNo" value="4" id="rate2"><label for="rate2">★</label>
 	        <input type="radio" name="reviewRevNo" value="3" id="rate3"><label for="rate3">★</label>
-	        <input type="radio" name="reviewRevNo" value="4" id="rate4"><label for="rate4">★</label>
-	        <input type="radio" name="reviewRevNo" value="5" id="rate5"><label for="rate5">★</label>
+	        <input type="radio" name="reviewRevNo" value="2" id="rate4"><label for="rate4">★</label>
+	        <input type="radio" name="reviewRevNo" value="1" id="rate5"><label for="rate5">★</label>
     	</fieldset>
    		
-   		<input type="file" name="files" id="files"/>
+   		<input type="file" name="files" id="files" />
    		<button>등록</button>
    
    </form>

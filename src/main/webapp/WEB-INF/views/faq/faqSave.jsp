@@ -21,7 +21,7 @@
 		<input type="text" id="faqTitle" name="faqTitle"><br>
 		<textarea rows="5" cols="50" name="faqContent"></textarea><br><br>
 		<button>등록</button>
-		<input type="button" value="목록" id="btnFaqList">
+		<input type="button" value="목록" onclick="location.href='${contextPath}/faq/faqPage'">
 		<input type="reset" value="초기화">
 	</form>
 

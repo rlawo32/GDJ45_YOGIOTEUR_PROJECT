@@ -12,9 +12,6 @@
 <style>
 	.ok {
 		color: blue;
-		color: green;
-		c59662fb02f93b207bba363601958b80bf9b2233
-		color: blue;
 	}
 	.dont {
 		color: red;
@@ -26,12 +23,6 @@
 	$(function(){
 		fnLogin(); 
 	})
-	
-	let idPass = false;
-	function fnLogin(){
-		$('#form').on('submit', function(e){
-			if($('#id').val() == '' || $('#pw').val() == ''){
-				$('#idMsg').text('아이디와 비밀번호를 모두 입력하세요.').addClass('dont').removeClass('ok');
 
 		$('#LoginForm').on('submit', function(e){
 			if($('#memberId').val() == '' || $('#memberPw').val() == ''){
@@ -39,14 +30,7 @@
 				e.preventDefault();
 				return false;
 			}
-			
-		$('#form').on('submit', function(){
-			if($('#id').val() == ''){
-				$('#idMsg').text('아이디를 입력해 주세요.').addClass('dont').removeClass('ok');
-				idPass = false;
-				return;
-			}
-			
+
 			
 
 </script>

@@ -87,7 +87,6 @@
 </style>
 </head>
 <body>
-   <jsp:include page="../layout/header.jsp"></jsp:include>
    
    <a href="${contextPath}/faq/faqSavePage">새글작성</a>
    
@@ -110,6 +109,5 @@
             
          <div class="noList">${paging}</div>
             
-   <jsp:include page="../layout/footer.jsp"></jsp:include>
 </body>
 </html>

@@ -13,7 +13,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 	<!-- 리뷰 목록보기 -->
 	<select id="selectReviewList" parameterType="Map" resultType="ReviewDTO">
-		SELECT C.REVIEW_NO, C.MEMBER_NO, C.RESER_NO, C.REVIEW_TITLE, C.REVIEW_CONTENT, C.REVIEW_CREATED, C.REVIEW_REV_NO
+		SELECT C.RNC, C.REVIEW_NO, C.MEMBER_NO, C.RESER_NO, C.REVIEW_TITLE, C.REVIEW_CONTENT, C.REVIEW_CREATED, C.REVIEW_REV_NO
 		  FROM (SELECT ROW_NUMBER() OVER(ORDER BY REVIEW_NO DESC) AS RNC, REVIEW_NO, MEMBER_NO, RESER_NO, REVIEW_TITLE, REVIEW_CONTENT, REVIEW_CREATED, REVIEW_REV_NO
 		  		  FROM REVIEW) C
 		 WHERE C.RNC BETWEEN #{beginRecord} AND #{endRecord}  		  
@@ -58,7 +58,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<delete id="deleteReview" parameterType="Long">
 		DELETE
 		  FROM REVIEW
-		 WHRER REVIEW_NO = #{reviewNo}
+		 WHERE REVIEW_NO = #{reviewNo}
+	</delete>
+	
+	<!-- 첨부파일 삭제 -->
+	<delete id="deleteReImage" parameterType="Long">
+		DELETE
+		  FROM RE_IMAGE
+		 WHERE REVIEW_NO = #{reviewNo}
 	</delete>
 	
 </mapper>

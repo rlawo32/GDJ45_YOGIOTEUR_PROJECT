@@ -74,6 +74,7 @@ public class MemberController {
 		MemberDTO loginMember = memberService.login(request);
 		if(loginMember != null) {
 			model.addAttribute("loginMember", loginMember);
+			System.out.println(loginMember);
 		}
 		model.addAttribute("url", request.getParameter("url"));
 	}
